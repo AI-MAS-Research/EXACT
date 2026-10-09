@@ -9,7 +9,9 @@ EXACT combines a topology-aware encoder (**TopoEnc**), a decomposition-guided se
 ```text
 EXACT/
 ├── datasets/              # Eight datasets, one directory per dataset
-├── model/                 # EXACT.py: complete neural pipeline
+├── model/
+│   ├── EXACT.py           # Core model components and pipeline
+│   └── __init__.py
 ├── training/              # Preprocessing, losses, training, and evaluation
 ├── main.py                # Configuration and command-line entry point
 ├── requirements.txt
@@ -26,7 +28,7 @@ Use Python 3.10 or 3.11. Install a PyTorch build appropriate for your machine, t
 pip install -r requirements.txt
 ```
 
-The release checks use PyTorch 2.1.1 with CUDA 11.8 and the versions in `requirements-tested.txt`. CPU execution is supported; CUDA is recommended for full experiments. Persistent homology uses Ripser. VMD is implemented in the supplied preprocessing code and does not require `vmdpy`.
+Tested dependency versions are listed in `requirements-tested.txt`. CPU execution is supported; CUDA is recommended for full experiments. Persistent homology uses Ripser. VMD is implemented in the supplied preprocessing code.
 
 ## Quick start
 
@@ -42,7 +44,7 @@ Check every CSV and its temporal split without training:
 python main.py --data all --check_data
 ```
 
-Train with the retained experiment configuration:
+Train with the dataset-specific configuration:
 
 ```bash
 python main.py --data AAPL
@@ -71,7 +73,7 @@ python main.py --data Amazon --data_dir /path/to/datasets
 | `--output_dir` | Output root, default `outputs/` |
 | `--check_data` | Validate inputs and report window counts without training |
 
-Without overrides, daily experiments use the original dataset-specific hyperparameter profiles; BTC uses its own minute-track defaults. `python main.py --help` lists all options.
+Without overrides, daily experiments use dataset-specific hyperparameter profiles; BTC uses its minute-track defaults. `python main.py --help` lists all options.
 
 ## Model components
 
@@ -95,4 +97,4 @@ outputs/<dataset>/
 
 The BTC track additionally reports direction accuracy, QLIKE, RV-scale SMAPE, and Pearson correlation. The daily runner does not export per-timestamp predictions or model checkpoints. Result files identify the model as EXACT.
 
-This repository provides the full EXACT pipeline and eight input datasets. Baseline and ablation implementations are not included. Execution checks do not constitute reproduction of all manuscript results.
+The repository includes the EXACT pipeline and eight input datasets.
